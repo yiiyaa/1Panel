@@ -1452,9 +1452,9 @@ const message = {
         restartNowHelper: 'Configurar o proxy do Docker exige reiniciar o serviço Docker.',
         restartNow: 'Reiniciar imediatamente',
         systemIPWarning:
-            'O endereço do servidor ainda não está configurado. Configure-o no painel de controle primeiro.',
+            'O endereço do sistema não está definido no momento. Defina-o primeiro no painel de controle.',
         systemIPWarning1:
-            'O endereço atual do servidor está configurado como {0}, e o redirecionamento rápido não é possível!',
+            'O endereço do sistema atual está definido como {0}, e o redirecionamento rápido não é possível!',
         defaultNetwork: 'Placa de rede',
         syncTime: 'Hora do servidor',
         timeZone: 'Fuso horário',
