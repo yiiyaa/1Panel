@@ -1,8 +1,8 @@
-import fit2cloudEnLocale from 'fit2cloud-ui-plus/src/locale/lang/ja';
-let xpackJpLocale = {};
+import fit2cloudJaLocale from 'fit2cloud-ui-plus/src/locale/lang/ja';
+let xpackJaLocale = {};
 const xpackModules = import.meta.glob('../../xpack/lang/ja.ts', { eager: true });
 if (xpackModules['../../xpack/lang/ja.ts']) {
-    xpackJpLocale = xpackModules['../../xpack/lang/ja.ts']['default'] || {};
+    xpackJaLocale = xpackModules['../../xpack/lang/ja.ts']['default'] || {};
 }
 
 const message = {
@@ -32,6 +32,7 @@ const message = {
             clean: 'クリーン',
             login: 'ログイン',
             close: '近い',
+            off: '近い',
             stop: '停止',
             start: '始める',
             view: 'ビュー',
@@ -51,15 +52,15 @@ const message = {
             saveAndEnable: '保存して有効にします',
             import: '輸入',
             search: '検索',
-            refresh: 'リフレッシュします',
+            refresh: 'リロード',
             get: '得る',
             upgrade: 'アップグレード',
             ignore: 'アップグレードを無視します',
             copy: 'コピー',
             random: 'ランダム',
             uninstall: 'アンインストール',
-            fullscreen: 'フルスクリーンを入力します',
-            quitFullscreen: 'フルスクリーンを終了します',
+            fullscreen: 'フルスクリーン',
+            quitFullscreen: 'フルスクリーンを終了',
             update: '編集',
             showAll: 'すべてを表示します',
             hideSome: 'いくつかを隠します',
@@ -221,7 +222,8 @@ const message = {
             paramUrlAndPort:
                 'このフィールドは、「http（s）://（domain name/ip）:(ポート）」の形式でなければなりません。',
             nginxDoc: 'このフィールドは、英語、数字、「」で構成されている必要があります。文字。',
-            appName: `このフィールドは、「 - 」と「_」文字で開始および終了してはなりません。英語、数字、 "、および「_」文字で2〜30の文字で構成されている必要があります。`,
+            appName:
+                '小文字の英字、数字、-および_をサポートし、長さは2〜30で、-または_で始まったり終わったりすることはできません',
             containerName: '文字、数字、 - 、_および。;-  _または。で始めることはできません。長さ:2-128',
             mirror: 'ミラーアクセラレーションアドレスは、http（s）://、英語の文字（大文字と小文字の両方）、数字をサポートする必要があります。/および - 、そして空白の行を含めてはなりません。',
             disableFunction: 'サポートレター、アンダースコア、および',
@@ -451,8 +453,8 @@ const message = {
         remote: 'リモート',
         remoteDB: 'リモートサーバー|リモートサーバー',
         manageRemoteDB: 'リモートDB',
-        createRemoteDB: 'bind @.lower:database.remotedb',
-        unBindRemoteDB: 'unbind @.lower:database.remotedb',
+        createRemoteDB: 'リモートサーバーを追加',
+        unBindRemoteDB: 'リモートサーバーのバインドを解除',
         unBindForce: '強制バインド',
         unBindForceHelper: '結合プロセス中にすべてのエラーを無視して、最終操作が成功するようにします',
         unBindRemoteHelper:
@@ -1136,7 +1138,7 @@ const message = {
             clamLog: '@:toolbox.clam.clamconfログ',
             freshClam: 'フレッシュクラム',
             freshClamLog: '@:toolbox.clam.freshclamログ',
-            alertHelper: 'Professionalバージョンは、スケジュールされたスキャンとSMSアラートをサポートしています',
+            alertHelper: 'プロフェッショナル版は、定期スキャンとSMSアラート機能をサポートしています',
             alertTitle: 'ウイルススキャンタスク（{0}」感染したファイルアラートが検出されました',
         },
     },
@@ -1183,7 +1185,7 @@ const message = {
         editPermissions: '編集@:file.mode',
         owner: '所有者',
         file: 'ファイル',
-        remoteFile: 'リモコンからダウンロードしてください',
+        remoteFile: 'リモートダウンロード',
         share: '共有',
         sync: 'データ同期',
         size: 'サイズ',
@@ -1282,9 +1284,9 @@ const message = {
         clashOpenAlert: '「リサイクルビン」ボタンをクリックして、リサイクルビンディレクトリを開きます',
         right: 'フォワード',
         back: '戻る',
-        top: '戻って行きます',
-        refresh: 'リフレッシュします',
-        up: '戻って行きます',
+        top: '戻る',
+        refresh: 'リロード',
+        up: '戻る',
         openWithVscode: 'VSコードで開く',
         vscodeHelper:
             'VSコードがローカルにインストールされ、SSHリモートプラグインが構成されていることを確認してください',
@@ -1298,6 +1300,7 @@ const message = {
         panelInstallDir: `1Panelインストールディレクトリは削除できません`,
     },
     ssh: {
+        setting: '設定',
         autoStart: 'オートスタート',
         enable: 'AutoStartを有効にします',
         disable: 'AutoStartを無効にします',
@@ -1417,8 +1420,8 @@ const message = {
         confDockerProxy: 'Dockerプロキシを構成します',
         restartNowHelper: 'Dockerプロキシの構成には、Dockerサービスを再起動する必要があります。',
         restartNow: 'すぐに再起動します',
-        systemIPWarning: `サーバーアドレスは現在設定されていません。最初にコントロールパネルに設定します。`,
-        systemIPWarning1: `現在のサーバーアドレスは{0}に設定されており、クイックリダイレクトは不可能です！`,
+        systemIPWarning: `システムアドレスが現在設定されていません。まずコントロールパネルで設定してください。`,
+        systemIPWarning1: `現在のシステムアドレスは {0} に設定されており、クイックリダイレクトはできません！`,
         defaultNetwork: 'ネットワークカード',
         syncTime: 'サーバー時間',
         timeZone: 'タイムゾーン',
@@ -1676,7 +1679,8 @@ const message = {
     },
     license: {
         community: '無料',
-        pro: 'Pro',
+        oss: '無料',
+        pro: '専門',
         trial: 'トライアル',
         office: '正式',
         trialInfo: 'バージョン',
@@ -1695,7 +1699,7 @@ const message = {
         quickUpdate: 'クイックアップデート',
         import: '輸入',
         power: '許可',
-        unbind: 'バインドライセンス',
+        unbind: 'バインド',
         unbindHelper: 'すべてのPro関連設定は、バインディングを解除した後にクリーニングされます。続けたいですか？',
         importLicense: 'ライセンス',
         importHelper: 'ここでライセンスファイルをクリックまたはドラッグしてください',
@@ -1911,7 +1915,7 @@ const message = {
         app: '応用',
         appNew: '新しいアプリケーション',
         appInstalled: 'インストールされたアプリケーション',
-        create: 'Webサイトを作成します',
+        create: '作成する',
         delete: 'Webサイトを削除します',
         deleteApp: 'アプリケーションを削除します',
         deleteBackup: 'バックアップを削除します',
@@ -2486,7 +2490,7 @@ const message = {
     },
 };
 export default {
-    ...fit2cloudEnLocale,
+    ...fit2cloudJaLocale,
     ...message,
-    ...xpackJpLocale,
+    ...xpackJaLocale,
 };

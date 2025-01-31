@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -34,9 +35,9 @@ type AppService struct {
 }
 
 type IAppService interface {
-	PageApp(req request.AppSearch) (interface{}, error)
-	GetAppTags() ([]response.TagDTO, error)
-	GetApp(key string) (*response.AppDTO, error)
+	PageApp(ctx *gin.Context, req request.AppSearch) (interface{}, error)
+	GetAppTags(ctx *gin.Context) ([]response.TagDTO, error)
+	GetApp(ctx *gin.Context, key string) (*response.AppDTO, error)
 	GetAppDetail(appId uint, version, appType string) (response.AppDetailDTO, error)
 	Install(ctx context.Context, req request.AppInstallCreate) (*model.AppInstall, error)
 	SyncAppListFromRemote() error
@@ -50,7 +51,7 @@ func NewIAppService() IAppService {
 	return &AppService{}
 }
 
-func (a AppService) PageApp(req request.AppSearch) (interface{}, error) {
+func (a AppService) PageApp(ctx *gin.Context, req request.AppSearch) (interface{}, error) {
 	var opts []repo.DBOption
 	opts = append(opts, appRepo.OrderByRecommend())
 	if req.Name != "" {
@@ -90,30 +91,22 @@ func (a AppService) PageApp(req request.AppSearch) (interface{}, error) {
 		return nil, err
 	}
 	var appDTOs []*response.AppItem
+	lang := strings.ToLower(common.GetLang(ctx))
 	for _, ap := range apps {
 		appDTO := &response.AppItem{
-			ID:          ap.ID,
-			Name:        ap.Name,
-			Key:         ap.Key,
-			Type:        ap.Type,
-			Icon:        ap.Icon,
-			ShortDescZh: ap.ShortDescZh,
-			ShortDescEn: ap.ShortDescEn,
-			Resource:    ap.Resource,
-			Limit:       ap.Limit,
+			ID:       ap.ID,
+			Name:     ap.Name,
+			Key:      ap.Key,
+			Type:     ap.Type,
+			Icon:     ap.Icon,
+			Resource: ap.Resource,
+			Limit:    ap.Limit,
 		}
+		appDTO.Description = ap.GetDescription(ctx)
 		appDTOs = append(appDTOs, appDTO)
-		appTags, err := appTagRepo.GetByAppId(ap.ID)
+		tags, err := getAppTags(ap.ID, lang)
 		if err != nil {
-			continue
-		}
-		var tagIds []uint
-		for _, at := range appTags {
-			tagIds = append(tagIds, at.TagId)
-		}
-		tags, err := tagRepo.GetByIds(tagIds)
-		if err != nil {
-			continue
+			return nil, err
 		}
 		appDTO.Tags = tags
 		installs, _ := appInstallRepo.ListBy(appInstallRepo.WithAppId(ap.ID))
@@ -125,18 +118,26 @@ func (a AppService) PageApp(req request.AppSearch) (interface{}, error) {
 	return res, nil
 }
 
-func (a AppService) GetAppTags() ([]response.TagDTO, error) {
+func (a AppService) GetAppTags(ctx *gin.Context) ([]response.TagDTO, error) {
 	tags, _ := tagRepo.All()
 	res := make([]response.TagDTO, 0)
+	lang := strings.ToLower(common.GetLang(ctx))
 	for _, tag := range tags {
-		res = append(res, response.TagDTO{
-			Tag: tag,
-		})
+		tagDTO := response.TagDTO{
+			ID:  tag.ID,
+			Key: tag.Key,
+		}
+		var translations = make(map[string]string)
+		_ = json.Unmarshal([]byte(tag.Translations), &translations)
+		if name, ok := translations[lang]; ok {
+			tagDTO.Name = name
+		}
+		res = append(res, tagDTO)
 	}
 	return res, nil
 }
 
-func (a AppService) GetApp(key string) (*response.AppDTO, error) {
+func (a AppService) GetApp(ctx *gin.Context, key string) (*response.AppDTO, error) {
 	var appDTO response.AppDTO
 	if key == "postgres" {
 		key = "postgresql"
@@ -146,6 +147,7 @@ func (a AppService) GetApp(key string) (*response.AppDTO, error) {
 		return nil, err
 	}
 	appDTO.App = app
+	appDTO.App.Description = app.GetDescription(ctx)
 	details, err := appDetailRepo.GetBy(appDetailRepo.WithAppId(app.ID))
 	if err != nil {
 		return nil, err
@@ -155,7 +157,11 @@ func (a AppService) GetApp(key string) (*response.AppDTO, error) {
 		versionsRaw = append(versionsRaw, detail.Version)
 	}
 	appDTO.Versions = common.GetSortedVersions(versionsRaw)
-
+	tags, err := getAppTags(app.ID, strings.ToLower(common.GetLang(ctx)))
+	if err != nil {
+		return nil, err
+	}
+	appDTO.Tags = tags
 	return &appDTO, nil
 }
 
@@ -296,7 +302,8 @@ func (a AppService) Install(ctx context.Context, req request.AppInstallCreate) (
 		err = buserr.WithDetail(constant.Err1PanelNetworkFailed, err.Error(), nil)
 		return
 	}
-	if list, _ := appInstallRepo.ListBy(commonRepo.WithByName(req.Name)); len(list) > 0 {
+
+	if list, _ := appInstallRepo.ListBy(commonRepo.WithByLowerName(req.Name)); len(list) > 0 {
 		err = buserr.New(constant.ErrAppNameExist)
 		return
 	}
@@ -827,10 +834,11 @@ func (a AppService) SyncAppListFromRemote() (err error) {
 		oldAppIds []uint
 	)
 	for _, t := range list.Extra.Tags {
+		translations, _ := json.Marshal(t.Locales)
 		tags = append(tags, &model.Tag{
-			Key:  t.Key,
-			Name: t.Name,
-			Sort: t.Sort,
+			Key:          t.Key,
+			Translations: string(translations),
+			Sort:         t.Sort,
 		})
 	}
 	oldApps, err := appRepo.GetBy(appRepo.WithResource(constant.AppResourceRemote))

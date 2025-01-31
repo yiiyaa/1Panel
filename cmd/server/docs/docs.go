@@ -10013,10 +10013,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/response.PHPExtensionsDTO"
-                            }
+                            "$ref": "#/definitions/dto.PageResult"
                         }
                     }
                 }
@@ -10619,6 +10616,88 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dto.PageResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/settings/backup/record/size": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    },
+                    {
+                        "Timestamp": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Backup Account"
+                ],
+                "summary": "Load backup records size",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.RecordSearch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.BackupFile"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/settings/backup/record/size/bycronjob": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    },
+                    {
+                        "Timestamp": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Backup Account"
+                ],
+                "summary": "Load backup records size for cronjob",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.RecordSearchByCronjob"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.BackupFile"
+                            }
                         }
                     }
                 }
@@ -15403,6 +15482,59 @@ const docTemplate = `{
                 }
             }
         },
+        "/websites/proxies/del": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    },
+                    {
+                        "Timestamp": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Website"
+                ],
+                "summary": "Delete proxy conf",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.WebsiteProxyDel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "x-panel-log": {
+                    "BeforeFunctions": [
+                        {
+                            "db": "websites",
+                            "input_column": "id",
+                            "input_value": "id",
+                            "isList": false,
+                            "output_column": "primary_domain",
+                            "output_value": "domain"
+                        }
+                    ],
+                    "bodyKeys": [
+                        "id"
+                    ],
+                    "formatEN": "Delete domain [domain] proxy config",
+                    "formatZH": "删除网站 [domain] 反向代理配置",
+                    "paramKeys": []
+                }
+            }
+        },
         "/websites/proxies/update": {
             "post": {
                 "security": [
@@ -16618,6 +16750,9 @@ const docTemplate = `{
                 "crossVersionUpdate": {
                     "type": "boolean"
                 },
+                "description": {
+                    "$ref": "#/definitions/dto.Locale"
+                },
                 "document": {
                     "type": "string"
                 },
@@ -16681,6 +16816,20 @@ const docTemplate = `{
                 },
                 "version": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.BackupFile": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
                 }
             }
         },
@@ -19406,6 +19555,32 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.Locale": {
+            "type": "object",
+            "properties": {
+                "en": {
+                    "type": "string"
+                },
+                "ja": {
+                    "type": "string"
+                },
+                "ms": {
+                    "type": "string"
+                },
+                "pt-br": {
+                    "type": "string"
+                },
+                "ru": {
+                    "type": "string"
+                },
+                "zh": {
+                    "type": "string"
+                },
+                "zh-hant": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.LogOption": {
             "type": "object",
             "properties": {
@@ -19448,7 +19623,11 @@ const docTemplate = `{
                         "zh",
                         "en",
                         "tw",
-                        "ru"
+                        "ja",
+                        "ko",
+                        "ru",
+                        "ms",
+                        "pt-BR"
                     ]
                 },
                 "name": {
@@ -21530,6 +21709,9 @@ const docTemplate = `{
                 "key": {
                     "type": "string"
                 },
+                "locales": {
+                    "$ref": "#/definitions/dto.Locale"
+                },
                 "name": {
                     "type": "string"
                 },
@@ -21819,6 +22001,9 @@ const docTemplate = `{
                 "crossVersionUpdate": {
                     "type": "boolean"
                 },
+                "description": {
+                    "type": "string"
+                },
                 "document": {
                     "type": "string"
                 },
@@ -22042,6 +22227,9 @@ const docTemplate = `{
                 },
                 "sort": {
                     "type": "integer"
+                },
+                "translations": {
+                    "type": "string"
                 },
                 "updatedAt": {
                     "type": "string"
@@ -24333,6 +24521,21 @@ const docTemplate = `{
                 }
             }
         },
+        "request.WebsiteProxyDel": {
+            "type": "object",
+            "required": [
+                "id",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "request.WebsiteProxyReq": {
             "type": "object",
             "required": [
@@ -24709,6 +24912,9 @@ const docTemplate = `{
                 "crossVersionUpdate": {
                     "type": "boolean"
                 },
+                "description": {
+                    "type": "string"
+                },
                 "document": {
                     "type": "string"
                 },
@@ -24834,56 +25040,6 @@ const docTemplate = `{
                 }
             }
         },
-        "response.AppDto": {
-            "type": "object",
-            "properties": {
-                "icon": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "installed": {
-                    "type": "boolean"
-                },
-                "key": {
-                    "type": "string"
-                },
-                "limit": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "resource": {
-                    "type": "string"
-                },
-                "shortDescEn": {
-                    "type": "string"
-                },
-                "shortDescZh": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "tags": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/model.Tag"
-                    }
-                },
-                "type": {
-                    "type": "string"
-                },
-                "versions": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
         "response.AppInstalledCheck": {
             "type": "object",
             "properties": {
@@ -24922,6 +25078,53 @@ const docTemplate = `{
                 },
                 "version": {
                     "type": "string"
+                }
+            }
+        },
+        "response.AppItem": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "installed": {
+                    "type": "boolean"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "resource": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.TagDTO"
+                    }
+                },
+                "type": {
+                    "type": "string"
+                },
+                "versions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -24965,7 +25168,7 @@ const docTemplate = `{
                 "items": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/response.AppDto"
+                        "$ref": "#/definitions/response.AppItem"
                     }
                 },
                 "total": {
@@ -25393,26 +25596,6 @@ const docTemplate = `{
                 }
             }
         },
-        "response.PHPExtensionsDTO": {
-            "type": "object",
-            "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "extensions": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                }
-            }
-        },
         "response.PackageScripts": {
             "type": "object",
             "properties": {
@@ -25535,6 +25718,20 @@ const docTemplate = `{
                     }
                 },
                 "user": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.TagDTO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 }
             }
@@ -25965,7 +26162,7 @@ const docTemplate = `{
     },
     "securityDefinitions": {
         "ApiKeyAuth": {
-            "description": "Custom Token Format, Format: md5('1panel' + API-Key + UnixTimestamp).\n` + "`" + `` + "`" + `` + "`" + `\neg:\ncurl -X GET \"http://localhost:4004/api/v1/resource\" \\\n-H \"1Panel-Token: \u003c1panel_token\u003e\" \\\n-H \"1Panel-Timestamp: \u003ccurrent_unix_timestamp\u003e\"\n` + "`" + `` + "`" + `` + "`" + `\n- ` + "`" + `1Panel-Token` + "`" + ` is the key for the panel API Key.",
+            "description": "Custom Token Format, Format: md5('1panel' + API-Key + UnixTimestamp).\n` + "`" + `` + "`" + `` + "`" + `\neg:\ncurl -X GET \"http://localhost:4004/api/v1/dashboard/current\" \\\n-H \"1Panel-Token: \u003c1panel_token\u003e\" \\\n-H \"1Panel-Timestamp: \u003ccurrent_unix_timestamp\u003e\"\n` + "`" + `` + "`" + `` + "`" + `\n- ` + "`" + `1Panel-Token` + "`" + ` is the key for the panel API Key.",
             "type": "apiKey",
             "name": "1Panel-Token",
             "in": "header"

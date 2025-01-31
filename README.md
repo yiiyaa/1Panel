@@ -1,5 +1,5 @@
 <p align="center"><a href="https://1panel.hk"><img src="https://resource.1panel.hk/img/1panel-logo.png" alt="1Panel" width="300" /></a></p>
-<p align="center"><b>Top-Rated Web-based Linux Server Management Tool</b></p>
+<p align="center"><b>Top-Rated Web-based Linux Server Management Tool<br>Best VPS control panel</b></p>
 <p align="center">
   <a href="https://trendshift.io/repositories/2462" target="_blank"><img src="https://trendshift.io/api/badge/repositories/2462" alt="1Panel-dev%2F1Panel | Trendshift" style="width: 180px; height: auto;" /></a>
   <a href="https://www.producthunt.com/posts/1panel?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-1panel" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=639696&theme=light" alt="1Panel - Top&#0045;Rated&#0032;web&#0045;based&#0032;Linux&#0032;server&#0032;management&#0032;tool | Product Hunt" style="width: 180px; height: auto;" /></a>
@@ -50,6 +50,8 @@ curl -sSL https://resource.1panel.hk/quick_start.sh -o quick_start.sh && bash qu
 
 Please refer to our [documentation](https://docs.1panel.hk/quick_start/) for more details.
 
+中国用户请使用这个 [安装脚本](https://1panel.cn/docs/installation/online_installation/)，其应用数量比国际版本更丰富。
+
 ## Screenshot
 
 ![UI Display](https://resource.1panel.hk/img/1panel.png)
@@ -58,9 +60,13 @@ Please refer to our [documentation](https://docs.1panel.hk/quick_start/) for mor
 
 [![Star History Chart](https://api.star-history.com/svg?repos=1Panel-dev/1Panel&type=Date)](https://star-history.com/#1Panel-dev/1Panel&Date)
 
+## Pro Edition
+
+Compared to the OSS Edition, 1Panel Pro Edition provides users with a wealth of enhanced features and technical support services. Enhanced features include WAF enhancement, website tamper protection, website monitoring, GPU monitoring, custom logo and theme color, etc. [Click to view the detailed introduction of the Pro Edition](https://1panel.hk/pricing).
+
 ## Security Information
 
-If you discover any security issues, please contact us through: wanghe@fit2cloud.com.
+If you discover any security issues, please refer to [SECURITY.md](/SECURITY.md).
 
 ## License
 

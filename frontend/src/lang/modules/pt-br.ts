@@ -33,6 +33,7 @@ const message = {
             clean: 'Limpar',
             login: 'Entrar',
             close: 'Fechar',
+            off: 'Fechar',
             stop: 'Parar',
             start: 'Iniciar',
             view: 'Visualizar',
@@ -59,7 +60,7 @@ const message = {
             copy: 'Copiar',
             random: 'Aleatório',
             uninstall: 'Desinstalar',
-            fullscreen: 'Entrar em tela cheia',
+            fullscreen: 'Tela Cheia',
             quitFullscreen: 'Sair da tela cheia',
             update: 'Editar',
             showAll: 'Exibir tudo',
@@ -226,7 +227,7 @@ const message = {
             paramUrlAndPort: 'Este campo deve estar no formato "http(s)://(nome do domínio/IP):(porta)".',
             nginxDoc: 'Este campo deve conter letras, números e ".".',
             appName:
-                'Este campo não deve começar ou terminar com "-" ou "_" e deve conter letras, números, "-", e "_" com comprimento de 2-30.',
+                'Suporta letras minúsculas, números, - e _, comprimento de 2 a 30, e não pode começar ou terminar com - ou _',
             containerName:
                 'Suporta letras, números, "-", "_" e "."; não pode começar com "-", "_" ou "."; comprimento: 2-128.',
             mirror: 'O endereço de aceleração do mirror deve começar com http(s)://, suportar letras (maiúsculas e minúsculas), números, ".", "/" e "-", e não deve conter linhas em branco.',
@@ -1327,6 +1328,7 @@ const message = {
         panelInstallDir: 'O diretório de instalação do 1Panel não pode ser excluído',
     },
     ssh: {
+        setting: 'configuração',
         autoStart: 'Início automático',
         enable: 'Habilitar início automático',
         disable: 'Desabilitar início automático',
@@ -1449,10 +1451,9 @@ const message = {
         confDockerProxy: 'Configurar proxy do Docker',
         restartNowHelper: 'Configurar o proxy do Docker exige reiniciar o serviço Docker.',
         restartNow: 'Reiniciar imediatamente',
-        systemIPWarning:
-            'O endereço do servidor ainda não está configurado. Configure-o no painel de controle primeiro.',
+        systemIPWarning: 'O endereço do sistema não está definido no momento. Defina-o primeiro no painel de controle.',
         systemIPWarning1:
-            'O endereço atual do servidor está configurado como {0}, e o redirecionamento rápido não é possível!',
+            'O endereço do sistema atual está definido como {0}, e o redirecionamento rápido não é possível!',
         defaultNetwork: 'Placa de rede',
         syncTime: 'Hora do servidor',
         timeZone: 'Fuso horário',
@@ -1738,7 +1739,7 @@ const message = {
         quickUpdate: 'Atualização rápida',
         import: 'Importar',
         power: 'Autorizar',
-        unbind: 'Desvincular Licença',
+        unbind: 'Desvincular',
         unbindHelper:
             'Todas as configurações relacionadas ao Pro serão limpas após a desvinculação. Você deseja continuar?',
         importLicense: 'Licença',
@@ -1955,7 +1956,7 @@ const message = {
         app: 'Aplicativo',
         appNew: 'Novo Aplicativo',
         appInstalled: 'Aplicativo instalado',
-        create: 'Criar site',
+        create: 'Criar',
         delete: 'Excluir site',
         deleteApp: 'Excluir Aplicativo',
         deleteBackup: 'Excluir Backup',

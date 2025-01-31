@@ -102,6 +102,8 @@ definitions:
         type: array
       crossVersionUpdate:
         type: boolean
+      description:
+        $ref: '#/definitions/dto.Locale'
       document:
         type: string
       github:
@@ -144,6 +146,15 @@ definitions:
         type: string
       version:
         type: string
+    type: object
+  dto.BackupFile:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      size:
+        type: integer
     type: object
   dto.BackupInfo:
     properties:
@@ -1974,6 +1985,23 @@ definitions:
     - id
     - type
     type: object
+  dto.Locale:
+    properties:
+      en:
+        type: string
+      ja:
+        type: string
+      ms:
+        type: string
+      pt-br:
+        type: string
+      ru:
+        type: string
+      zh:
+        type: string
+      zh-hant:
+        type: string
+    type: object
   dto.LogOption:
     properties:
       logMaxFile:
@@ -1999,7 +2027,11 @@ definitions:
         - zh
         - en
         - tw
+        - ja
+        - ko
         - ru
+        - ms
+        - pt-BR
         type: string
       name:
         type: string
@@ -3417,6 +3449,8 @@ definitions:
     properties:
       key:
         type: string
+      locales:
+        $ref: '#/definitions/dto.Locale'
       name:
         type: string
       sort:
@@ -3606,6 +3640,8 @@ definitions:
         type: string
       crossVersionUpdate:
         type: boolean
+      description:
+        type: string
       document:
         type: string
       github:
@@ -3754,6 +3790,8 @@ definitions:
         type: string
       sort:
         type: integer
+      translations:
+        type: string
       updatedAt:
         type: string
     type: object
@@ -5291,6 +5329,16 @@ definitions:
     - proxyHost
     - proxyPass
     type: object
+  request.WebsiteProxyDel:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    required:
+    - id
+    - name
+    type: object
   request.WebsiteProxyReq:
     properties:
       id:
@@ -5544,6 +5592,8 @@ definitions:
         type: string
       crossVersionUpdate:
         type: boolean
+      description:
+        type: string
       document:
         type: string
       github:
@@ -5627,39 +5677,6 @@ definitions:
       version:
         type: string
     type: object
-  response.AppDto:
-    properties:
-      icon:
-        type: string
-      id:
-        type: integer
-      installed:
-        type: boolean
-      key:
-        type: string
-      limit:
-        type: integer
-      name:
-        type: string
-      resource:
-        type: string
-      shortDescEn:
-        type: string
-      shortDescZh:
-        type: string
-      status:
-        type: string
-      tags:
-        items:
-          $ref: '#/definitions/model.Tag'
-        type: array
-      type:
-        type: string
-      versions:
-        items:
-          type: string
-        type: array
-    type: object
   response.AppInstalledCheck:
     properties:
       app:
@@ -5686,6 +5703,37 @@ definitions:
         type: string
       version:
         type: string
+    type: object
+  response.AppItem:
+    properties:
+      description:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      installed:
+        type: boolean
+      key:
+        type: string
+      limit:
+        type: integer
+      name:
+        type: string
+      resource:
+        type: string
+      status:
+        type: string
+      tags:
+        items:
+          $ref: '#/definitions/response.TagDTO'
+        type: array
+      type:
+        type: string
+      versions:
+        items:
+          type: string
+        type: array
     type: object
   response.AppParam:
     properties:
@@ -5714,7 +5762,7 @@ definitions:
     properties:
       items:
         items:
-          $ref: '#/definitions/response.AppDto'
+          $ref: '#/definitions/response.AppItem'
         type: array
       total:
         type: integer
@@ -5993,19 +6041,6 @@ definitions:
       uploadMaxSize:
         type: string
     type: object
-  response.PHPExtensionsDTO:
-    properties:
-      createdAt:
-        type: string
-      extensions:
-        type: string
-      id:
-        type: integer
-      name:
-        type: string
-      updatedAt:
-        type: string
-    type: object
   response.PackageScripts:
     properties:
       name:
@@ -6087,6 +6122,15 @@ definitions:
           $ref: '#/definitions/response.ProcessStatus'
         type: array
       user:
+        type: string
+    type: object
+  response.TagDTO:
+    properties:
+      id:
+        type: integer
+      key:
+        type: string
+      name:
         type: string
     type: object
   response.WebsiteAcmeAccountDTO:
@@ -12415,9 +12459,7 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/response.PHPExtensionsDTO'
-            type: array
+            $ref: '#/definitions/dto.PageResult'
       security:
       - ApiKeyAuth: []
       - Timestamp: []
@@ -12763,6 +12805,54 @@ paths:
       - ApiKeyAuth: []
       - Timestamp: []
       summary: Page backup records by cronjob
+      tags:
+      - Backup Account
+  /settings/backup/record/size:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RecordSearch'
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.BackupFile'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      - Timestamp: []
+      summary: Load backup records size
+      tags:
+      - Backup Account
+  /settings/backup/record/size/bycronjob:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RecordSearchByCronjob'
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.BackupFile'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      - Timestamp: []
+      summary: Load backup records size for cronjob
       tags:
       - Backup Account
   /settings/backup/recover:
@@ -15756,6 +15846,39 @@ paths:
       summary: Get proxy conf
       tags:
       - Website
+  /websites/proxies/del:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.WebsiteProxyDel'
+      responses:
+        "200":
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      - Timestamp: []
+      summary: Delete proxy conf
+      tags:
+      - Website
+      x-panel-log:
+        BeforeFunctions:
+        - db: websites
+          input_column: id
+          input_value: id
+          isList: false
+          output_column: primary_domain
+          output_value: domain
+        bodyKeys:
+        - id
+        formatEN: Delete domain [domain] proxy config
+        formatZH: 删除网站 [domain] 反向代理配置
+        paramKeys: []
   /websites/proxies/update:
     post:
       consumes:
@@ -16303,7 +16426,7 @@ securityDefinitions:
       Custom Token Format, Format: md5('1panel' + API-Key + UnixTimestamp).
       ```
       eg:
-      curl -X GET "http://localhost:4004/api/v1/resource" \
+      curl -X GET "http://localhost:4004/api/v1/dashboard/current" \
       -H "1Panel-Token: <1panel_token>" \
       -H "1Panel-Timestamp: <current_unix_timestamp>"
       ```

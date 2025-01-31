@@ -1,9 +1,9 @@
-import fit2cloudEnLocale from 'fit2cloud-ui-plus/src/locale/lang/ru';
+import fit2cloudRuLocale from 'fit2cloud-ui-plus/src/locale/lang/ru';
 
-let xpackEnLocale = {};
+let xpackRuLocale = {};
 const xpackModules = import.meta.glob('../../xpack/lang/ru.ts', { eager: true });
 if (xpackModules['../../xpack/lang/ru.ts']) {
-    xpackEnLocale = xpackModules['../../xpack/lang/ru.ts']['default'] || {};
+    xpackRuLocale = xpackModules['../../xpack/lang/ru.ts']['default'] || {};
 }
 
 const message = {
@@ -33,6 +33,7 @@ const message = {
             clean: 'Очистить',
             login: 'Войти',
             close: 'Закрыть',
+            off: 'Закрыть',
             stop: 'Остановить',
             start: 'Запустить',
             view: 'Просмотр',
@@ -223,7 +224,7 @@ const message = {
             paramUrlAndPort: 'Это поле должно быть в формате "http(s)://(доменное имя/ip):(порт)".',
             nginxDoc: 'Это поле должно состоять из английских букв, цифр и ".".',
             appName:
-                'Это поле не должно начинаться и заканчиваться символами "-" и "_" и должно состоять из английских букв, цифр, "-" и "_" длиной 2-30.',
+                'Поддерживает строчные буквы, цифры, - и _, длина 2-30, и не может начинаться или заканчиваться на - или _',
             containerName: 'Поддерживаются буквы, цифры, -, _ и .; не может начинаться с - _ или .; длина: 2-128',
             mirror: 'Адрес ускорения зеркала должен начинаться с http(s)://, поддерживает английские буквы (как заглавные, так и строчные), цифры, . / и -, и не должен содержать пустых строк.',
             disableFunction: 'Поддерживаются только буквы, подчеркивания и запятые',
@@ -1214,7 +1215,7 @@ const message = {
         editPermissions: '@:file.mode',
         owner: 'Владелец',
         file: 'Файл',
-        remoteFile: 'Скачать с удаленного сервера',
+        remoteFile: 'Удалённая загрузка',
         share: 'Поделиться',
         sync: 'Синхронизация данных',
         size: 'Размер',
@@ -1329,6 +1330,7 @@ const message = {
         panelInstallDir: 'Директорию установки 1Panel нельзя удалить',
     },
     ssh: {
+        setting: 'настройка',
         autoStart: 'Автозапуск',
         enable: 'Включить автозапуск',
         disable: 'Отключить автозапуск',
@@ -1454,8 +1456,8 @@ const message = {
         confDockerProxy: 'Настроить прокси docker',
         restartNowHelper: 'Настройка прокси Docker требует перезапуска службы Docker.',
         restartNow: 'Перезапустить немедленно',
-        systemIPWarning: 'Адрес сервера в настоящее время не задан. Сначала установите его в панели управления.',
-        systemIPWarning1: 'Текущий адрес сервера установлен на {0}, быстрое перенаправление невозможно!',
+        systemIPWarning: 'Системный адрес в настоящее время не установлен. Сначала задайте его в панели управления.',
+        systemIPWarning1: 'Текущий адрес системы установлен на {0}, быстрая переадресация невозможна!',
         defaultNetwork: 'Сетевой интерфейс',
         syncTime: 'Время сервера',
         timeZone: 'Часовой пояс',
@@ -1736,7 +1738,7 @@ const message = {
         quickUpdate: 'Быстрое обновление',
         import: 'Импорт',
         power: 'Авторизовать',
-        unbind: 'Отвязать лицензию',
+        unbind: 'Отвязать',
         unbindHelper: 'Все настройки Pro будут очищены после отвязки. Хотите продолжить?',
         importLicense: 'Лицензия',
         importHelper: 'Пожалуйста, нажмите или перетащите файл лицензии сюда',
@@ -1955,7 +1957,7 @@ const message = {
         app: 'Приложение',
         appNew: 'Новое приложение',
         appInstalled: 'Установленное приложение',
-        create: 'Создать веб-сайт',
+        create: 'Создать',
         delete: 'Удалить веб-сайт',
         deleteApp: 'Удалить приложение',
         deleteBackup: 'Удалить резервную копию',
@@ -2540,7 +2542,7 @@ const message = {
 };
 
 export default {
-    ...fit2cloudEnLocale,
+    ...fit2cloudRuLocale,
     ...message,
-    ...xpackEnLocale,
+    ...xpackRuLocale,
 };

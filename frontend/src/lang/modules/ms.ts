@@ -1,9 +1,9 @@
-import fit2cloudEnLocale from 'fit2cloud-ui-plus/src/locale/lang/ms';
+import fit2cloudMsLocale from 'fit2cloud-ui-plus/src/locale/lang/ms';
 
-let xpackEnLocale = {};
+let xpackMsLocale = {};
 const xpackModules = import.meta.glob('../../xpack/lang/ms.ts', { eager: true });
 if (xpackModules['../../xpack/lang/ms.ts']) {
-    xpackEnLocale = xpackModules['../../xpack/lang/ms.ts']['default'] || {};
+    xpackMsLocale = xpackModules['../../xpack/lang/ms.ts']['default'] || {};
 }
 
 const message = {
@@ -33,6 +33,7 @@ const message = {
             clean: 'Bersih',
             login: 'Log masuk',
             close: 'Tutup',
+            off: 'Tutup',
             stop: 'Henti',
             start: 'Mula',
             view: 'Lihat',
@@ -59,8 +60,8 @@ const message = {
             copy: 'Salin',
             random: 'Rawak',
             uninstall: 'Nyahpasang',
-            fullscreen: 'Masuk ke skrin penuh',
-            quitFullscreen: 'Keluar dari skrin penuh',
+            fullscreen: 'Skrin Penuh',
+            quitFullscreen: 'Keluar Skrin Penuh',
             update: 'Kemas kini',
             showAll: 'Tunjukkan Semua',
             hideSome: 'Sembunyikan Sebahagian',
@@ -228,7 +229,7 @@ const message = {
             paramUrlAndPort: 'Ruangan ini mesti dalam format "http(s)://(nama domain/IP):(port)".',
             nginxDoc: 'Ruangan ini mesti terdiri daripada aksara rumi, nombor, dan ".".',
             appName:
-                'Ruangan ini tidak boleh bermula atau berakhir dengan "-" dan "_" dan mesti terdiri daripada aksara rumi, nombor, "-", dan "_" dengan panjang 2-30 aksara.',
+                'Menyokong huruf kecil, nombor, -, dan _, panjang 2-30, dan tidak boleh bermula atau berakhir dengan - atau _',
             containerName:
                 'Menyokong huruf, nombor, -, _ dan .; tidak boleh bermula dengan -, _ atau .; panjang: 2-128 aksara.',
             mirror: 'Alamat pecutan cermin mesti bermula dengan http(s)://, menyokong huruf (huruf besar dan kecil), nombor, ., / dan -, serta tidak boleh mengandungi baris kosong.',
@@ -1341,6 +1342,7 @@ const message = {
         panelInstallDir: 'Direktori pemasangan 1Panel tidak boleh dipadamkan',
     },
     ssh: {
+        setting: 'tetapan',
         autoStart: 'Mula automatik',
         enable: 'Aktifkan Mula Automatik',
         disable: 'Nyahaktif Mula Automatik',
@@ -1467,8 +1469,8 @@ const message = {
         confDockerProxy: 'Konfigurasi proksi docker',
         restartNowHelper: 'Mengkonfigurasi proksi Docker memerlukan memulakan semula perkhidmatan Docker.',
         restartNow: 'Mulakan semula sekarang',
-        systemIPWarning: 'Alamat pelayan belum ditetapkan. Tetapkan di panel kawalan terlebih dahulu.',
-        systemIPWarning1: 'Alamat pelayan semasa ditetapkan kepada {0}, dan pengalihan cepat tidak mungkin!',
+        systemIPWarning: 'Alamat sistem belum ditetapkan. Tetapkannya dahulu di panel kawalan.',
+        systemIPWarning1: 'Alamat sistem semasa ditetapkan kepada {0}, dan pengalihan pantas tidak dapat dilakukan!',
         defaultNetwork: 'Kad rangkaian',
         syncTime: 'Waktu Pelayan',
         timeZone: 'Zon Waktu',
@@ -1752,7 +1754,7 @@ const message = {
         quickUpdate: 'Kemas Kini Pantas',
         import: 'Import',
         power: 'Kebenaran',
-        unbind: 'Nyahikat Lesen',
+        unbind: 'Nyahkaitkan',
         unbindHelper: 'Semua Tetapan berkaitan Pro akan dibersihkan selepas nyahikat. Adakah anda mahu meneruskan?',
         importLicense: 'Lesen',
         importHelper: 'Sila klik atau seret fail lesen ke sini',
@@ -1964,7 +1966,7 @@ const message = {
         app: 'Aplikasi',
         appNew: 'Aplikasi Baru',
         appInstalled: 'Aplikasi yang Dipasang',
-        create: 'Cipta laman web',
+        create: 'Cipta',
         delete: 'Padam Laman Web',
         deleteApp: 'Padam Aplikasi',
         deleteBackup: 'Padam Sandaran',
@@ -2549,7 +2551,7 @@ const message = {
 };
 
 export default {
-    ...fit2cloudEnLocale,
+    ...fit2cloudMsLocale,
     ...message,
-    ...xpackEnLocale,
+    ...xpackMsLocale,
 };

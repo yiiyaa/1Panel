@@ -6,7 +6,7 @@
                     :model="form"
                     :label-position="mobile ? 'top' : 'left'"
                     label-width="auto"
-                    class="sm:w-full md:w-4/5 lg:w-3/5 2xl:w-1/2 max-w-max"
+                    class="sm:w-full md:w-4/5 lg:w-3/5 2xl:w-1/2 max-w-max ml-8"
                 >
                     <el-form-item :label="$t('setting.user')" prop="userName">
                         <el-input disabled v-model="form.userName">
@@ -252,6 +252,10 @@ const mobile = computed(() => {
 interface ThemeColor {
     light: string;
     dark: string;
+    themePredefineColors: {
+        light: string[];
+        dark: string[];
+    };
 }
 
 const form = reactive({
@@ -320,6 +324,7 @@ const languageOptions = ref([
     ...(!globalStore.isIntl ? [{ value: 'en', label: 'English' }] : []),
     { value: 'ja', label: '日本語' },
     { value: 'pt-BR', label: 'Português (Brasil)' },
+    { value: 'ko', label: '한국어' },
     { value: 'ru', label: 'Русский' },
     { value: 'ms', label: 'Bahasa Melayu' },
 ]);
@@ -366,8 +371,10 @@ const search = async () => {
         const xpackRes = await getXpackSetting();
         if (xpackRes) {
             form.theme = xpackRes.data.theme || globalStore.themeConfig.theme || 'light';
-            form.themeColor = JSON.parse(xpackRes.data.themeColor);
-            globalStore.themeConfig.themeColor = xpackRes.data.themeColor;
+            form.themeColor = JSON.parse(xpackRes.data.themeColor || '{"light":"#005eeb","dark":"#F0BE96"}');
+            globalStore.themeConfig.themeColor = xpackRes.data.themeColor
+                ? xpackRes.data.themeColor
+                : '{"light":"#005eeb","dark":"#F0BE96"}';
             globalStore.themeConfig.theme = form.theme;
             form.proxyDocker = xpackRes.data.proxyDocker;
         }
